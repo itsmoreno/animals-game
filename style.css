@@ -217,149 +217,197 @@ body {
   min-height: 18px;
 }
 
-/* ---- Moving animals on opening pages ---- */
-.animal-parade {
+/* ---- CSS animals on the sides of the opening pages ---- */
+.side-animals {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  overflow: hidden;
+  top: 0;
+  height: 100%;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   pointer-events: none;
-  z-index: 1;        /* above the overlay gradient, below the card */
+  z-index: 1;
+}
+.side-animals.left  { left: 0; }
+.side-animals.right { right: 0; }
+
+/* gentle bob in place — they stay on their side, they don't travel */
+.critter {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.35));
+  animation: bob 3.2s ease-in-out infinite;
+}
+.critter:nth-child(2) { animation-delay: -1.1s; }
+.critter:nth-child(3) { animation-delay: -2.2s; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0)     rotate(-4deg); }
+  50%      { transform: translateY(-14px) rotate(4deg); }
 }
 
-.parade-animal {
+/* eyes — same for every critter */
+.critter .face {
   position: absolute;
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  opacity: 0.55;
-  left: -120px;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
-  animation: parade-fly linear infinite;
+  top: 24px; left: 17px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #2b2b2b;
+  box-shadow: 17px 0 0 #2b2b2b;
 }
 
-/* Each animal flies at its own height, speed and rhythm */
-.parade-animal:nth-child(1) { top: 18%; animation-duration: 14s; animation-delay:  0s; }
-.parade-animal:nth-child(2) { top: 42%; animation-duration: 19s; animation-delay: -6s; width: 78px; height: 78px; }
-.parade-animal:nth-child(3) { top: 64%; animation-duration: 16s; animation-delay: -3s; width: 84px; height: 84px; }
-.parade-animal:nth-child(4) { top: 80%; animation-duration: 22s; animation-delay: -11s; }
+/* round ears — the shared default */
+.critter::before,
+.critter::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: inherit;
+}
+.critter::before { left: 1px; }
+.critter::after  { right: 1px; }
 
-@keyframes parade-fly {
-  0%   { transform: translateX(0)            translateY(0)     rotate(-6deg); }
-  25%  { transform: translateX(28vw)         translateY(-26px) rotate(6deg); }
-  50%  { transform: translateX(56vw)         translateY(14px)  rotate(-4deg); }
-  75%  { transform: translateX(84vw)         translateY(-18px) rotate(6deg); }
-  100% { transform: translateX(calc(100vw + 140px)) translateY(0) rotate(-6deg); }
+/* Cat — orange, pointy ears, small nose */
+.c-cat { background: #e8893b; }
+.c-cat::before, .c-cat::after {
+  width: 0; height: 0; border-radius: 0; top: -12px;
+  background: transparent;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  border-bottom: 18px solid #e8893b;
+}
+.c-cat::before { left: 5px;  transform: rotate(-15deg); }
+.c-cat::after  { right: 5px; transform: rotate(15deg); }
+.c-cat .snout {
+  position: absolute; top: 34px; left: 50%;
+  transform: translateX(-50%);
+  width: 7px; height: 5px; border-radius: 50%;
+  background: #aa511c;
+}
+
+/* Bear — brown, round ears, light muzzle */
+.c-bear { background: #8d6e52; }
+.c-bear::before, .c-bear::after { background: #8d6e52; }
+.c-bear .snout {
+  position: absolute; top: 31px; left: 50%;
+  transform: translateX(-50%);
+  width: 24px; height: 15px; border-radius: 50%;
+  background: #d8c3a5;
+}
+
+/* Bunny — cream, tall ears */
+.c-bunny { background: #f0ece4; }
+.c-bunny::before, .c-bunny::after {
+  width: 13px; height: 30px; border-radius: 50%; top: -26px;
+  background: #f0ece4;
+}
+.c-bunny::before { left: 13px; transform: rotate(-12deg); }
+.c-bunny::after  { right: 13px; transform: rotate(12deg); }
+
+/* Bird — teal, side wings, beak */
+.c-bird { background: #3fb6c4; }
+.c-bird::before, .c-bird::after {
+  width: 18px; height: 26px; border-radius: 50%; top: 16px;
+  background: #2f9aa6;
+}
+.c-bird::before { left: -7px;  transform: rotate(22deg); }
+.c-bird::after  { right: -7px; transform: rotate(-22deg); }
+.c-bird .beak {
+  position: absolute; top: 30px; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid #f4a32a;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .parade-animal { animation: none; }
+  .critter { animation: none; }
 }
 
-/* ---- Info / welcome page ---- */
+/* ---- Info / welcome page — plain and wide ---- */
 .info-card {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
   background: #ffffff;
-  color: #1a0a00;
-  padding: 28px 32px;
-  border-radius: 18px;
-  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
-  width: 420px;
+  color: #222;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 560px;
   max-width: 90vw;
   max-height: 88vh;
   overflow-y: auto;
+  text-align: right;
 }
 
 .info-title {
-  font-size: 28px;
-  font-weight: 900;
-  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 0 22px;
   text-align: center;
 }
 
-.info-section {
-  width: 100%;
-}
+.info-section { margin-bottom: 22px; }
+.info-section:last-of-type { margin-bottom: 24px; }
 
 .info-heading {
-  font-size: 17px;
-  font-weight: 800;
-  color: #c79100;
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
   margin: 0 0 8px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid #f3e2a8;
 }
 
 .info-text {
   font-size: 15px;
   color: #444;
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .info-list {
   margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: right;
-  width: 100%;
+  padding-right: 20px;
+  color: #444;
 }
 
 .info-list li {
   font-size: 15px;
-  color: #2a2a2a;
-  padding: 6px 0;
-  line-height: 1.5;
+  padding: 4px 0;
+  line-height: 1.6;
 }
 
-/* Animals + difficulty rows */
-.animal-info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Animals + difficulty as a simple table */
+.animal-table {
   width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
 }
 
-.animal-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 8px 12px;
+.animal-table th,
+.animal-table td {
+  text-align: right;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e5e5;
 }
 
-.animal-info img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-}
-
-.animal-info-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.animal-info-text strong { font-size: 16px; }
-.animal-info-text span   { font-size: 13px; color: #777; }
-
-.diff-badge {
-  font-size: 12px;
+.animal-table th {
+  color: #888;
   font-weight: bold;
-  padding: 4px 12px;
-  border-radius: 20px;
-  white-space: nowrap;
 }
 
-.info-card .login-btn { margin-top: 4px; }
+.info-card .login-btn {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+}
 
-/* Keep the login card above its animal parade too */
 .login-card { position: relative; z-index: 2; }
 
 /* ---- Small text-only buttons (back / logout) ---- */
@@ -773,10 +821,10 @@ body {
 @media (max-width: 600px) {
   #gameTitle { font-size: 40px; }
 
-  .info-card { padding: 22px 20px; gap: 12px; }
-  .info-title { font-size: 23px; }
-  .info-heading { font-size: 15px; }
-  .info-text, .info-list li { font-size: 14px; }
+  .info-card { padding: 22px 20px; }
+  .info-title { font-size: 22px; }
+  .info-heading { font-size: 16px; }
+  .info-text, .info-list li, .animal-table { font-size: 14px; }
 
   .login-card { padding: 26px 24px; width: 280px; }
   .login-logo { width: 84px; height: 84px; }
@@ -784,9 +832,8 @@ body {
   #animalPreview { width: 96px; height: 96px; }
   .arrow-btn { width: 40px; height: 40px; }
 
-  .parade-animal { width: 54px; height: 54px; }
-  .parade-animal:nth-child(2),
-  .parade-animal:nth-child(3) { width: 60px; height: 60px; }
+  /* not enough room beside the card on small screens */
+  .side-animals { display: none; }
 
   #sun { width: 64px; height: 64px; top: 40px; right: 40px; }
   .cloud { transform: scale(0.8); }

@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>משחק</title>
+  <title>משחק החיות המעופפות</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -28,67 +28,58 @@
     <button id="muteBtn" class="mute-btn" type="button" aria-label="כיבוי והפעלת קול">🔊</button>
 
     <div id="infoScreen" class="overlay">
-      <div id="infoAnimals" class="animal-parade">
-        <img class="parade-animal" src="assets/images/monkey.png" alt="">
-        <img class="parade-animal" src="assets/images/image.png" alt="">
-        <img class="parade-animal" src="assets/images/image copy.png" alt="">
-        <img class="parade-animal" src="assets/images/image copy 2.png" alt="">
+      <div class="side-animals left">
+        <span class="critter c-cat"><i class="face"></i><i class="snout"></i></span>
+        <span class="critter c-bear"><i class="face"></i><i class="snout"></i></span>
+        <span class="critter c-bird"><i class="face"></i><i class="beak"></i></span>
       </div>
+      <div class="side-animals right">
+        <span class="critter c-bunny"><i class="face"></i></span>
+        <span class="critter c-bird"><i class="face"></i><i class="beak"></i></span>
+        <span class="critter c-cat"><i class="face"></i><i class="snout"></i></span>
+      </div>
+
       <div class="info-card">
-        <img class="login-logo" src="assets/images/logo.png" alt="לוגו">
         <h1 class="info-title">משחק החיות המעופפות</h1>
 
         <section class="info-section">
           <h2 class="info-heading">על המשחק</h2>
-          <p class="info-text">בחרו חיה ועזרו לה לעוף בין המכשולים בלי לפגוע בהם, בקרקע או בתקרה. בדרך אספו מטבעות וצברו ניקוד, ונסו לשבור את השיא האישי שלכם. לכל חיה יש עולם משלה ורמת קושי שונה.</p>
+          <p class="info-text">בחרו חיה ועזרו לה לעוף בין המכשולים, בלי לפגוע בהם, בקרקע או בתקרה. אספו מטבעות בדרך כדי לצבור ניקוד ולשבור את השיא שלכם. לכל חיה יש עולם משלה ורמת קושי משלה.</p>
         </section>
 
         <section class="info-section">
           <h2 class="info-heading">איך משחקים</h2>
           <ul class="info-list">
-            <li>🖱️ לחצו על המסך, או על מקש הרווח / חץ למעלה, כדי לעוף מעלה.</li>
-            <li>🪙 כל מטבע שאוספים שווה נקודה אחת.</li>
-            <li>⚠️ הימנעו מפגיעה במכשולים, בקרקע ובתקרה.</li>
-            <li>🏆 השיא נשמר בנפרד לכל חיה.</li>
+            <li>לחיצה על המסך, מקש רווח או חץ למעלה — מעיפים את החיה כלפי מעלה.</li>
+            <li>כל מטבע שאוספים שווה נקודה אחת.</li>
+            <li>אסור לפגוע במכשולים, בקרקע או בתקרה.</li>
+            <li>השיא נשמר בנפרד לכל חיה.</li>
           </ul>
         </section>
 
         <section class="info-section">
           <h2 class="info-heading">החיות ורמות הקושי</h2>
-          <div class="animal-info-grid">
-            <div class="animal-info">
-              <img src="assets/images/monkey.png" alt="קוף">
-              <div class="animal-info-text"><strong>קוף</strong><span>ג'ונגל</span></div>
-              <span class="diff-badge diff-jungle">קל</span>
-            </div>
-            <div class="animal-info">
-              <img src="assets/images/image.png" alt="פינגווין">
-              <div class="animal-info-text"><strong>פינגווין</strong><span>קוטב</span></div>
-              <span class="diff-badge diff-arctic">בינוני</span>
-            </div>
-            <div class="animal-info">
-              <img src="assets/images/image copy.png" alt="אריה">
-              <div class="animal-info-text"><strong>אריה</strong><span>סוואנה</span></div>
-              <span class="diff-badge diff-savanna">קשה</span>
-            </div>
-            <div class="animal-info">
-              <img src="assets/images/image copy 2.png" alt="ציפור">
-              <div class="animal-info-text"><strong>ציפור</strong><span>יער / לילה</span></div>
-              <span class="diff-badge diff-forest">קשה מאוד</span>
-            </div>
-          </div>
+          <table class="animal-table">
+            <tr><th>חיה</th><th>עולם</th><th>קושי</th></tr>
+            <tr><td>קוף</td><td>ג'ונגל</td><td>קל</td></tr>
+            <tr><td>פינגווין</td><td>קוטב</td><td>בינוני</td></tr>
+            <tr><td>אריה</td><td>סוואנה</td><td>קשה</td></tr>
+            <tr><td>ציפור</td><td>יער / לילה</td><td>קשה מאוד</td></tr>
+          </table>
         </section>
 
-        <button id="infoContinueBtn" class="login-btn">המשך להתחברות ←</button>
+        <button id="infoContinueBtn" class="login-btn">המשך להתחברות</button>
       </div>
     </div>
 
     <div id="loginScreen" class="overlay" style="display:none;">
-      <div id="loginAnimals" class="animal-parade">
-        <img class="parade-animal" src="assets/images/monkey.png" alt="">
-        <img class="parade-animal" src="assets/images/image.png" alt="">
-        <img class="parade-animal" src="assets/images/image copy.png" alt="">
-        <img class="parade-animal" src="assets/images/image copy 2.png" alt="">
+      <div class="side-animals left">
+        <span class="critter c-bird"><i class="face"></i><i class="beak"></i></span>
+        <span class="critter c-cat"><i class="face"></i><i class="snout"></i></span>
+      </div>
+      <div class="side-animals right">
+        <span class="critter c-bunny"><i class="face"></i></span>
+        <span class="critter c-bear"><i class="face"></i><i class="snout"></i></span>
       </div>
       <div class="login-card">
         <img class="login-logo" src="assets/images/logo.png" alt="לוגו">
