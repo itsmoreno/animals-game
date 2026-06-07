@@ -1,0 +1,797 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #1a252f;
+}
+
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: skyblue;
+  overflow: hidden;
+}
+
+#ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #6b3410;
+  z-index: 1;
+}
+
+#grass {
+  position: absolute;
+  bottom: 90px;
+  width: 100%;
+  height: 20px;
+  background-color: #4caf50;
+  z-index: 1;
+}
+
+#sun {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 90px;
+  height: 90px;
+  background-color: #ffd54f;
+  border-radius: 50%;
+  box-shadow: 0 0 40px #ffd54f;
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  width: 130px;
+  height: 45px;
+  background-color: white;
+  border-radius: 30px;
+  z-index: 0;
+}
+
+.cloud::before {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.cloud::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+#cloud1 { top: 90px; left: 200px; }
+#cloud2 { top: 160px; right: 220px; }
+#cloud3 { top: 110px; left: 55%; }
+
+.tree {
+  position: absolute;
+  bottom: 90px;
+  width: 140px;
+  height: 200px;
+  z-index: 2;
+}
+
+#info {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.55);
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  z-index: 10;
+  border-bottom: 2px solid rgba(255,255,255,0.12);
+}
+
+#info span {
+  margin: 0 24px;
+}
+
+#howto { display: none; }
+
+#monkey {
+  position: absolute;
+  left: 15%;
+  width: 80px;
+  height: 80px;
+  z-index: 5;
+  object-fit: contain;
+  display: none;
+}
+
+.pipe {
+  position: absolute;
+  width: 70px;
+  background-color: #4caf50;
+  z-index: 3;
+}
+
+.pipe-cap {
+  position: absolute;
+  width: 84px;
+  height: 22px;
+  background-color: #388e3c;
+  left: -7px;
+  z-index: 4;
+  border-radius: 4px;
+}
+
+.coin {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  z-index: 5;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(255, 210, 0, 0.8));
+}
+
+/* ---- Login card ---- */
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  color: #1a0a00;
+  padding: 34px 38px 30px;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  width: 300px;
+  max-width: 86vw;
+}
+
+.login-logo {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+.login-title {
+  font-size: 26px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.login-sub {
+  font-size: 14px;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+.login-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 17px;
+  padding: 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.login-input:focus {
+  border-color: #ffc107;
+}
+
+.login-btn {
+  width: 100%;
+  font-size: 18px;
+  padding: 12px 0;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1a0a00;
+  box-shadow: 0 4px 0 #c79100;
+  letter-spacing: 0.5px;
+}
+
+.login-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #c79100; }
+
+.login-error {
+  font-size: 14px;
+  font-weight: bold;
+  color: #c0392b;
+  margin: 0;
+  min-height: 18px;
+}
+
+/* ---- Moving animals on opening pages ---- */
+.animal-parade {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;        /* above the overlay gradient, below the card */
+}
+
+.parade-animal {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  opacity: 0.55;
+  left: -120px;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  animation: parade-fly linear infinite;
+}
+
+/* Each animal flies at its own height, speed and rhythm */
+.parade-animal:nth-child(1) { top: 18%; animation-duration: 14s; animation-delay:  0s; }
+.parade-animal:nth-child(2) { top: 42%; animation-duration: 19s; animation-delay: -6s; width: 78px; height: 78px; }
+.parade-animal:nth-child(3) { top: 64%; animation-duration: 16s; animation-delay: -3s; width: 84px; height: 84px; }
+.parade-animal:nth-child(4) { top: 80%; animation-duration: 22s; animation-delay: -11s; }
+
+@keyframes parade-fly {
+  0%   { transform: translateX(0)            translateY(0)     rotate(-6deg); }
+  25%  { transform: translateX(28vw)         translateY(-26px) rotate(6deg); }
+  50%  { transform: translateX(56vw)         translateY(14px)  rotate(-4deg); }
+  75%  { transform: translateX(84vw)         translateY(-18px) rotate(6deg); }
+  100% { transform: translateX(calc(100vw + 140px)) translateY(0) rotate(-6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parade-animal { animation: none; }
+}
+
+/* ---- Info / welcome page ---- */
+.info-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+  color: #1a0a00;
+  padding: 28px 32px;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  width: 420px;
+  max-width: 90vw;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.info-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 0;
+  text-align: center;
+}
+
+.info-section {
+  width: 100%;
+}
+
+.info-heading {
+  font-size: 17px;
+  font-weight: 800;
+  color: #c79100;
+  margin: 0 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #f3e2a8;
+}
+
+.info-text {
+  font-size: 15px;
+  color: #444;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.info-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+  width: 100%;
+}
+
+.info-list li {
+  font-size: 15px;
+  color: #2a2a2a;
+  padding: 6px 0;
+  line-height: 1.5;
+}
+
+/* Animals + difficulty rows */
+.animal-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.animal-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f7f7f7;
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.animal-info img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.animal-info-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.animal-info-text strong { font-size: 16px; }
+.animal-info-text span   { font-size: 13px; color: #777; }
+
+.diff-badge {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.info-card .login-btn { margin-top: 4px; }
+
+/* Keep the login card above its animal parade too */
+.login-card { position: relative; z-index: 2; }
+
+/* ---- Small text-only buttons (back / logout) ---- */
+.text-link {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px;
+  font-family: inherit;
+}
+
+.login-card .text-link { color: #999; margin-top: 2px; }
+
+#logoutBtn {
+  color: rgba(255,255,255,0.75);
+  margin-top: 4px;
+}
+
+.text-link:hover { text-decoration: underline; }
+
+/* Personal best under the animal selector */
+#animalHighScore {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffd54f;
+  margin: 0;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* ---- Mute button ---- */
+.mute-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.45);
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mute-btn:hover { background: rgba(0,0,0,0.65); }
+.mute-btn.muted { opacity: 0.6; }
+
+/* ---- Screen fade transitions ---- */
+.overlay {
+  transition: opacity 0.35s ease;
+}
+
+.overlay.fade-out { opacity: 0; }
+
+/* ---- Card entrance animation ---- */
+.info-card,
+.login-card,
+.end-card,
+#startScreen > * {
+  animation: card-in 0.4s ease both;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ---- Collision shake ---- */
+#game.shake { animation: shake 0.4s; }
+
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-8px, 4px); }
+  40% { transform: translate(8px, -4px); }
+  60% { transform: translate(-6px, -3px); }
+  80% { transform: translate(6px, 3px); }
+}
+
+/* ---- Start button pulse ---- */
+#startBtn { animation: pulse 1.6s ease-in-out infinite; }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+
+#startBtn:active { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .info-card, .login-card, .end-card, #startScreen > *,
+  #game.shake, #startBtn { animation: none; transition: none; }
+}
+
+/* ---- Animal selector ---- */
+#animalSelector {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  direction: ltr;
+}
+
+#animalPreview {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
+}
+
+.arrow-btn {
+  font-size: 20px;
+  background: rgba(255,255,255,0.18);
+  border: 2px solid rgba(255,255,255,0.45);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  color: white;
+  line-height: 1;
+}
+
+.arrow-btn:hover {
+  background: rgba(255,255,255,0.38);
+}
+
+.arrow-btn:active { transform: scale(0.92); }
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.82) 100%);
+  color: white;
+  text-align: center;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+#gameTitle {
+  font-size: 52px;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: 2px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.5);
+}
+
+/* ---- Difficulty badge ---- */
+#diffLabel {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: -6px;
+}
+
+.diff-jungle  { background-color: #27ae60; color: white; }
+.diff-arctic  { background-color: #2e86c1; color: white; }
+.diff-savanna { background-color: #c0392b; color: white; }
+.diff-forest  { background-color: #6c3483; color: white; }
+
+/* ---- End screen ---- */
+.end-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  color: #1a0a00;
+  padding: 32px 38px;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+  width: 300px;
+  max-width: 86vw;
+}
+
+.end-card h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 0;
+}
+
+#newRecord {
+  font-size: 17px;
+  font-weight: bold;
+  color: #c79100;
+  margin: -8px 0 0;
+}
+
+.end-stats {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+}
+
+.stat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  padding: 14px 0;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #6b6b6b;
+  font-weight: bold;
+}
+
+.stat-box strong {
+  font-size: 30px;
+  color: #1a0a00;
+}
+
+/* ---- End buttons ---- */
+#endBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+#restartBtn, #lobbyBtn { width: 100%; box-sizing: border-box; }
+
+/* ---- Buttons ---- */
+#startBtn {
+  font-size: 19px;
+  padding: 13px 52px;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1a0a00;
+  box-shadow: 0 5px 0 #c79100;
+  letter-spacing: 0.5px;
+}
+
+#startBtn:active { transform: translateY(4px); box-shadow: 0 1px 0 #c79100; }
+
+#restartBtn {
+  font-size: 17px;
+  padding: 11px 40px;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #1a0a00;
+  box-shadow: 0 5px 0 #c79100;
+}
+
+#restartBtn:active { transform: translateY(4px); box-shadow: 0 1px 0 #c79100; }
+
+#lobbyBtn {
+  font-size: 15px;
+  padding: 9px 32px;
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #555;
+  font-weight: bold;
+}
+
+#lobbyBtn:hover {
+  background-color: #e4e4e4;
+}
+
+/* ---- Themes ---- */
+
+/* Jungle (monkey) — bamboo poles */
+#game[data-theme="jungle"] {
+  background-color: #5dade2;
+}
+#game[data-theme="jungle"] #ground  { background-color: #6d4c41; }
+#game[data-theme="jungle"] #grass   { background-color: #27ae60; }
+#game[data-theme="jungle"] #sun     { background-color: #f1c40f; box-shadow: 0 0 40px #f1c40f; }
+#game[data-theme="jungle"] .cloud,
+#game[data-theme="jungle"] .cloud::before,
+#game[data-theme="jungle"] .cloud::after { background-color: white; }
+#game[data-theme="jungle"] .pipe {
+  background-color: #5a9e5c;
+  width: 52px;
+  border-radius: 8px;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.2) 0%, transparent 40%, rgba(0,0,0,0.15) 100%),
+    repeating-linear-gradient(180deg, transparent 0px, transparent 28px, rgba(0,0,0,0.22) 28px, rgba(0,0,0,0.22) 33px);
+}
+#game[data-theme="jungle"] .pipe-top-cap,
+#game[data-theme="jungle"] .pipe-bot-cap {
+  background: linear-gradient(180deg, #388e3c 0%, #2a6b2e 100%);
+  width: 70px; height: 24px; left: -9px;
+  border-radius: 8px;
+  clip-path: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+
+/* Arctic (penguin) — icicle spikes */
+#game[data-theme="arctic"] {
+  background-color: #d6eaf8;
+}
+#game[data-theme="arctic"] #ground  { background-color: #aed6f1; }
+#game[data-theme="arctic"] #grass   { background-color: #d6eaf8; }
+#game[data-theme="arctic"] #sun     { background-color: #f0f3f4; box-shadow: 0 0 40px #aab7b8; }
+#game[data-theme="arctic"] .cloud,
+#game[data-theme="arctic"] .cloud::before,
+#game[data-theme="arctic"] .cloud::after { background-color: #ebf5fb; }
+#game[data-theme="arctic"] .pipe {
+  background-color: #b3d9f0;
+  border-radius: 0;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 35%, rgba(150,200,235,0.3) 100%);
+}
+/* icicle spikes pointing DOWN into gap */
+#game[data-theme="arctic"] .pipe-top-cap {
+  background-color: #cde8f8;
+  width: 70px; height: 56px; left: 0;
+  border-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 18%, 83% 100%, 67% 18%, 50% 100%, 33% 18%, 17% 100%, 0 18%);
+}
+/* icicle spikes pointing UP into gap */
+#game[data-theme="arctic"] .pipe-bot-cap {
+  background-color: #cde8f8;
+  width: 70px; height: 56px; left: 0;
+  border-radius: 0;
+  clip-path: polygon(0 82%, 17% 0, 33% 82%, 50% 0, 67% 82%, 83% 0, 100% 82%, 100% 100%, 0 100%);
+}
+
+/* Savanna (lion) — jagged rock cliffs */
+#game[data-theme="savanna"] {
+  background-color: #e67e22;
+}
+#game[data-theme="savanna"] #ground  { background-color: #784212; }
+#game[data-theme="savanna"] #grass   { background-color: #e59866; }
+#game[data-theme="savanna"] #sun     { background-color: #c0392b; box-shadow: 0 0 40px #c0392b; }
+#game[data-theme="savanna"] .cloud,
+#game[data-theme="savanna"] .cloud::before,
+#game[data-theme="savanna"] .cloud::after { background-color: #fad7a0; }
+#game[data-theme="savanna"] .pipe {
+  background-color: #a1887f;
+  width: 76px;
+  border-radius: 0;
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.12) 0%, transparent 28%, rgba(0,0,0,0.2) 100%);
+}
+/* jagged rocky bottom edge of top cliff */
+#game[data-theme="savanna"] .pipe-top-cap {
+  background-color: #6d4c41;
+  width: 76px; height: 36px; left: 0;
+  border-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 85% 70%, 72% 40%, 58% 90%, 44% 50%, 30% 80%, 16% 35%, 0 60%);
+}
+/* jagged rocky top edge of bottom cliff */
+#game[data-theme="savanna"] .pipe-bot-cap {
+  background-color: #6d4c41;
+  width: 76px; height: 36px; left: 0;
+  border-radius: 0;
+  clip-path: polygon(0 100%, 0 40%, 16% 65%, 30% 20%, 44% 50%, 58% 10%, 72% 60%, 85% 30%, 100% 70%, 100% 100%);
+}
+
+/* Forest/Night (robin) — tree trunks */
+#game[data-theme="forest"] {
+  background-color: #1a252f;
+}
+#game[data-theme="forest"] #ground  { background-color: #0b1a10; }
+#game[data-theme="forest"] #grass   { background-color: #1d6a2e; }
+#game[data-theme="forest"] #sun     { background-color: #fdfefe; box-shadow: 0 0 40px #aed6f1; }
+#game[data-theme="forest"] .cloud,
+#game[data-theme="forest"] .cloud::before,
+#game[data-theme="forest"] .cloud::after { background-color: #2c3e50; }
+#game[data-theme="forest"] .pipe {
+  background-color: #5d4037;
+  width: 52px;
+  border-radius: 10px;
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.16) 0%, transparent 38%, rgba(0,0,0,0.22) 100%),
+    repeating-linear-gradient(90deg, transparent 0px, transparent 9px, rgba(0,0,0,0.1) 9px, rgba(0,0,0,0.1) 11px);
+}
+/* root flare — widens toward gap */
+#game[data-theme="forest"] .pipe-top-cap {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.15) 100%) #3e2723;
+  width: 86px; height: 34px; left: -17px;
+  border-radius: 0;
+  clip-path: polygon(0 100%, 10% 0, 90% 0, 100% 100%);
+}
+#game[data-theme="forest"] .pipe-bot-cap {
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.15) 100%) #3e2723;
+  width: 86px; height: 34px; left: -17px;
+  border-radius: 0;
+  clip-path: polygon(0 0, 10% 100%, 90% 100%, 100% 0);
+}
+
+/* ---- Phones / small screens ---- */
+@media (max-width: 600px) {
+  #gameTitle { font-size: 40px; }
+
+  .info-card { padding: 22px 20px; gap: 12px; }
+  .info-title { font-size: 23px; }
+  .info-heading { font-size: 15px; }
+  .info-text, .info-list li { font-size: 14px; }
+
+  .login-card { padding: 26px 24px; width: 280px; }
+  .login-logo { width: 84px; height: 84px; }
+
+  #animalPreview { width: 96px; height: 96px; }
+  .arrow-btn { width: 40px; height: 40px; }
+
+  .parade-animal { width: 54px; height: 54px; }
+  .parade-animal:nth-child(2),
+  .parade-animal:nth-child(3) { width: 60px; height: 60px; }
+
+  #sun { width: 64px; height: 64px; top: 40px; right: 40px; }
+  .cloud { transform: scale(0.8); }
+
+  .mute-btn { width: 40px; height: 40px; font-size: 18px; }
+
+  #startBtn { font-size: 18px; padding: 12px 44px; }
+}

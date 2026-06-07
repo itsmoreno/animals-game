@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>משחק</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game">
+
+    <div id="sun"></div>
+    <div id="cloud1" class="cloud"></div>
+    <div id="cloud2" class="cloud"></div>
+    <div id="cloud3" class="cloud"></div>
+
+    <div id="ground"></div>
+    <div id="grass"></div>
+
+    <div id="info">
+      <span>ניקוד: <span id="score">0</span></span>
+      <span>שיא: <span id="highScore">0</span></span>
+    </div>
+
+    <img id="monkey" src="assets/images/monkey.png" alt="קוף">
+
+    <button id="muteBtn" class="mute-btn" type="button" aria-label="כיבוי והפעלת קול">🔊</button>
+
+    <div id="infoScreen" class="overlay">
+      <div id="infoAnimals" class="animal-parade">
+        <img class="parade-animal" src="assets/images/monkey.png" alt="">
+        <img class="parade-animal" src="assets/images/image.png" alt="">
+        <img class="parade-animal" src="assets/images/image copy.png" alt="">
+        <img class="parade-animal" src="assets/images/image copy 2.png" alt="">
+      </div>
+      <div class="info-card">
+        <img class="login-logo" src="assets/images/logo.png" alt="לוגו">
+        <h1 class="info-title">משחק החיות המעופפות</h1>
+
+        <section class="info-section">
+          <h2 class="info-heading">על המשחק</h2>
+          <p class="info-text">בחרו חיה ועזרו לה לעוף בין המכשולים בלי לפגוע בהם, בקרקע או בתקרה. בדרך אספו מטבעות וצברו ניקוד, ונסו לשבור את השיא האישי שלכם. לכל חיה יש עולם משלה ורמת קושי שונה.</p>
+        </section>
+
+        <section class="info-section">
+          <h2 class="info-heading">איך משחקים</h2>
+          <ul class="info-list">
+            <li>🖱️ לחצו על המסך, או על מקש הרווח / חץ למעלה, כדי לעוף מעלה.</li>
+            <li>🪙 כל מטבע שאוספים שווה נקודה אחת.</li>
+            <li>⚠️ הימנעו מפגיעה במכשולים, בקרקע ובתקרה.</li>
+            <li>🏆 השיא נשמר בנפרד לכל חיה.</li>
+          </ul>
+        </section>
+
+        <section class="info-section">
+          <h2 class="info-heading">החיות ורמות הקושי</h2>
+          <div class="animal-info-grid">
+            <div class="animal-info">
+              <img src="assets/images/monkey.png" alt="קוף">
+              <div class="animal-info-text"><strong>קוף</strong><span>ג'ונגל</span></div>
+              <span class="diff-badge diff-jungle">קל</span>
+            </div>
+            <div class="animal-info">
+              <img src="assets/images/image.png" alt="פינגווין">
+              <div class="animal-info-text"><strong>פינגווין</strong><span>קוטב</span></div>
+              <span class="diff-badge diff-arctic">בינוני</span>
+            </div>
+            <div class="animal-info">
+              <img src="assets/images/image copy.png" alt="אריה">
+              <div class="animal-info-text"><strong>אריה</strong><span>סוואנה</span></div>
+              <span class="diff-badge diff-savanna">קשה</span>
+            </div>
+            <div class="animal-info">
+              <img src="assets/images/image copy 2.png" alt="ציפור">
+              <div class="animal-info-text"><strong>ציפור</strong><span>יער / לילה</span></div>
+              <span class="diff-badge diff-forest">קשה מאוד</span>
+            </div>
+          </div>
+        </section>
+
+        <button id="infoContinueBtn" class="login-btn">המשך להתחברות ←</button>
+      </div>
+    </div>
+
+    <div id="loginScreen" class="overlay" style="display:none;">
+      <div id="loginAnimals" class="animal-parade">
+        <img class="parade-animal" src="assets/images/monkey.png" alt="">
+        <img class="parade-animal" src="assets/images/image.png" alt="">
+        <img class="parade-animal" src="assets/images/image copy.png" alt="">
+        <img class="parade-animal" src="assets/images/image copy 2.png" alt="">
+      </div>
+      <div class="login-card">
+        <img class="login-logo" src="assets/images/logo.png" alt="לוגו">
+        <h2 class="login-title">התחברות</h2>
+        <p class="login-sub">הזן סיסמה כדי לשחק</p>
+        <input type="password" id="passwordInput" class="login-input" placeholder="סיסמה" autocomplete="off">
+        <button id="loginBtn" class="login-btn">כניסה</button>
+        <p id="loginError" class="login-error"></p>
+        <button id="loginBackBtn" class="text-link" type="button">→ חזרה למסך המידע</button>
+      </div>
+    </div>
+
+    <div id="startScreen" class="overlay" style="display:none;">
+      <h1 id="gameTitle">קוף</h1>
+      <span id="diffLabel">קל</span>
+
+      <div id="animalSelector">
+        <button class="arrow-btn" id="prevAnimal">&#9664;</button>
+        <img id="animalPreview" src="assets/images/monkey.png" alt="קוף">
+        <button class="arrow-btn" id="nextAnimal">&#9654;</button>
+      </div>
+
+      <p id="animalHighScore">🏆 השיא שלך: 0</p>
+
+      <button id="startBtn">התחל משחק</button>
+
+      <button id="logoutBtn" class="text-link" type="button">התנתקות</button>
+    </div>
+
+    <div id="endScreen" class="overlay" style="display:none;">
+      <div class="end-card">
+        <h1>המשחק נגמר</h1>
+        <p id="newRecord" style="display:none;">🏆 שיא חדש!</p>
+        <div class="end-stats">
+          <div class="stat-box">
+            <span class="stat-label">ניקוד</span>
+            <strong id="finalScore">0</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">שיא אישי</span>
+            <strong id="finalHighScore">0</strong>
+          </div>
+        </div>
+        <div id="endBtns">
+          <button id="restartBtn">שחק שוב</button>
+          <button id="lobbyBtn">חזרה ללובי</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
